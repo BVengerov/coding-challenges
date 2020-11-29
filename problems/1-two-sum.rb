@@ -4,19 +4,19 @@
 # @param {Integer} target
 # @return {Integer[]}
 def two_sum(nums, target)
-    hash = nums.each_with_index.to_h
-    i = 0
-    pair = []
-    while i < nums.length && pair.empty?
-        compliment = target - nums[i]
-        if hash.key?(compliment) && i != hash[compliment]
-            pair << i
-            pair << hash[compliment]
-        else
-            i += 1
-        end
+  hash = nums.each_with_index.to_h
+  i = 0
+  pair = []
+  while i < nums.length && pair.empty?
+    compliment = target - nums[i]
+    if hash.key?(compliment) && i != hash[compliment]
+      pair << i
+      pair << hash[compliment]
+    else
+      i += 1
     end
-    pair
+  end
+  pair
 end
 
 raise "NOPE1" unless two_sum([2,7,11,15], 9) == [0,1]
