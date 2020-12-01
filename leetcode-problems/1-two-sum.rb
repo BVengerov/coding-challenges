@@ -19,6 +19,6 @@ def two_sum(nums, target)
   pair
 end
 
-raise "NOPE1" unless two_sum([2,7,11,15], 9) == [0,1]
-raise "NOPE2" unless two_sum([3,2,4], 6) == [1,2]
-raise "NOPE3" unless two_sum([3,3], 6) == [0,1]
+raise 'NOPE1' unless two_sum([2, 7, 11, 15], 9) == [0, 1]
+raise 'NOPE2' unless two_sum([3, 2, 4], 6) == [1, 2]
+raise 'NOPE3' unless two_sum([3, 3], 6) == [0, 1]

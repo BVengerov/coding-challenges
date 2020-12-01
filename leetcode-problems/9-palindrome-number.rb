@@ -3,7 +3,7 @@
 # @param {Integer} x
 # @return {Boolean}
 def is_palindrome(x)
-  if x < 0 then return false end
+  return false if x < 0
   temp_x = x
   y = 0
   while temp_x > 0
