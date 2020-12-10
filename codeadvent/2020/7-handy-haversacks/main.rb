@@ -3,31 +3,47 @@ def get_data(filename)
 end
 
 # https://adventofcode.com/2020/day/7
+
 def shiny_gold_containers(filename)
+  rulez = get_rulez(filename)
+  containers_recursive(rulez, 'shiny gold').uniq.count
+end
+
+def containers_recursive(rulez, bag)
+  return [] unless rulez.include?(bag)
+  rulez[bag].keys.reduce(rulez[bag].keys) do |mem, key|
+    mem + containers_recursive(rulez, key)
+  end
+end
+
+def get_rulez(filename)
   rulez = {}
   get_data(filename).each do |line|
-    container_bag = line.match(/^\w+ \w+/)              # "light red"
-    line.scan(/\d+ [a-z]+ [a-z]+/).map do |l|    # ["1 bright white", "2 muted yellow"]
+    container_bag = line.match(/^\w+ \w+/)
+    line.scan(/\d+ [a-z]+ [a-z]+/).map do |l|
       bag = l.match(/[a-z]+ [a-z]+/).to_s
       num = l.match(/\d+/).to_s.to_i
-      rulez[bag] = (rulez[bag] || {}).merge({ container_bag.to_s => num })
+      rulez[bag] = (rulez[bag] || {}).merge(container_bag.to_s => num)
     end
   end
-  calc_recursive(rulez, 'shiny gold', [])
+  rulez
 end
 
-def calc_recursive(rulez, bag, result)
-  return result unless rulez.key?(bag)
-  rulez[bag].reduce(result) do |mem, (key, _val)|
-    mem + calc_recursive(rulez, key, mem)
+# p shiny_gold_containers('example.txt')
+# p shiny_gold_containers('input.txt')
+
+# https://adventofcode.com/2020/day/7#part2
+
+def shiny_gold_count(filename)
+  rulez = get_rulez(filename)
+  count_recursive(rulez, 'shiny gold', rulez['shiny gold'].values.sum)
+end
+
+def count_recursive(rulez, bag, total)
+  return 0 unless rulez.include?(bag)
+  rulez[bag].each_pair.reduce(total) do |mem, (key, val)|
+    mem + val * count_recursive(rulez, key, mem)
   end
 end
 
-# def calc_recursive(big_hash, bag, num)
-#   return num unless big_hash.key?(bag)
-#   total = big_hash[bag].reduce(0) do |sum, (key, val)|
-#     sum + val * calc_recursive(big_hash, key, num)
-#   end
-# end
-
-p shiny_gold_containers('example.txt')
+p shiny_gold_count('example.txt')
